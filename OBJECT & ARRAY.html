@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OBJECT & ARRAY</title>
+
+    <script>
+
+        // converts array to object
+        function arrayToObject(){
+            console.clear();
+
+            let arr = [
+            {
+                "detailsTitle": "App_Details",
+                "fields": [
+                    [
+                        "name",
+                        "Ridahm",
+                        "string"
+                    ],
+                    [
+                        "status",
+                        true,
+                        "boolean"
+                    ],
+                    [
+                        "msg",
+                        "Hello, I am React Developer.",
+                        "string"
+                    ]
+                ],
+                "sections": [
+                    {
+                        "title": "AA",
+                        "fields": [
+                            [
+                                "aa",
+                                "aa",
+                                "string"
+                            ],
+                            [
+                                "bb",
+                                true,
+                                "boolean"
+                            ],
+                            [
+                                "cc",
+                                4545654654645,
+                                "number"
+                            ]
+                        ]
+                    },
+                    {
+                        "title": "BB",
+                        "fields": [
+                            [
+                                "aa",
+                                "aa",
+                                "string"
+                            ],
+                            [
+                                "bb",
+                                false,
+                                "boolean"
+                            ],
+                            [
+                                "cc",
+                                65645656445456456,
+                                "number"
+                            ]
+                        ]
+                    }
+                ]
+            },
+            {
+                "detailsTitle": "newPage",
+                "fields": [
+                    [
+                        "aa",
+                        "aaaa",
+                        "string"
+                    ],
+                    [
+                        "bb",
+                        true,
+                        "boolean"
+                    ],
+                    [
+                        "cc",
+                        424334344534545,
+                        "number"
+                    ]
+                ],
+                "sections": [
+                    {
+                        "title": "aa",
+                        "fields": [
+                            [
+                                "aa",
+                                "aa",
+                                "string"
+                            ],
+                            [
+                                "bb",
+                                true,
+                                "boolean"
+                            ],
+                            [
+                                "cc",
+                                55465654656546,
+                                "number"
+                            ]
+                        ]
+                    },
+                    {
+                        "title": "BB",
+                        "fields": [
+                            [
+                                "aa",
+                                "aaaaaa",
+                                "string"
+                            ],
+                            [
+                                "bb",
+                                false,
+                                "boolean"
+                            ],
+                            [
+                                "number",
+                                544354656356565,
+                                "number"
+                            ]
+                        ]
+                    }
+                ]
+            }
+        ];
+            console.log('Original:',arr);
+
+            let obj = {};
+
+            arr.forEach(({detailsTitle, fields, sections}) => {
+                let mainData = Object.fromEntries(fields);
+
+                sections.forEach(({title, fields}) => {
+                    mainData[title] = Object.fromEntries(fields);
+                });
+
+                obj[detailsTitle] = mainData;
+            });
+
+            console.log('Converted:',obj);
+        }
+
+        // convert object to array
+        function objectToArray(){
+            console.clear();
+
+            let obj = {
+                "App_Details": {
+                    "name": "Ridahm",
+                    "status": true,
+                    "msg": "Hello, I am React Developer.",
+                    "AA": {
+                        "aa": "aa",
+                        "bb": true,
+                        "cc": 4545654654645
+                    },
+                    "BB": {
+                        "aa": "aa",
+                        "bb": false,
+                        "cc": 65645656445456456
+                    }
+                },
+                "newPage": {
+                    "aa": {
+                        "aa": "aa",
+                        "bb": true,
+                        "cc": 55465654656546
+                    },
+                    "bb": true,
+                    "cc": 424334344534545,
+                    "BB": {
+                        "aa": "aaaaaa",
+                        "bb": false,
+                        "number": 544354656356565
+                    }
+                }
+            };
+            console.log('Original',obj);
+
+            let arr = Object.entries(obj).map(([detailsTitle, mainData]) => ({
+                detailsTitle: detailsTitle,
+                fields: Object.entries(mainData).filter(([key, value]) => typeof value != 'object').map(([key, value]) => [key, value, typeof value]),
+                sections: Object.entries(mainData).filter(([key, value]) => typeof value == 'object').map(([title, subData]) => ({
+                    title: title,
+                    fields: Object.entries(subData).map(([key, value]) => [key, value, typeof value]),
+                }))
+            }));
+
+            console.log('Converted',arr);
+        }
+
+    </script>
+
+</head>
+<body>
+
+    <h1 style="text-align: center;">CHECK CONSOLE FOR OUTPUT</h1>
+
+    <div class="wrapper" style="display: flex; justify-content: center; margin-top: 200px;">
+        <button onclick="arrayToObject()" style="margin: 0 20px; padding: 15px 20px; cursor: pointer;">CONVERT ARRAY TO OBJECT</button>
+        <button onclick="objectToArray()" style="margin: 0 20px; padding: 15px 20px; cursor: pointer;">CONVERT OBJECT TO ARRAY</button>
+    </div>
+    
+</body>
+</html>
